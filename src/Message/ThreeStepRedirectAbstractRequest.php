@@ -339,7 +339,7 @@ abstract class ThreeStepRedirectAbstractRequest extends AbstractRequest
                 $this->arrayToXml($child, $value);
             }
             else {
-                $parent->addChild($name, htmlspecialchars($value));
+                $parent->addChild($name, htmlspecialchars($value ?? ''));
             }
         }
     }
