@@ -302,7 +302,9 @@ abstract class ThreeStepRedirectAbstractRequest extends AbstractRequest
 
         $errorMessage = null;
         $internalErrors = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader(true);
+        if (\PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader(true);
+        }
         libxml_clear_errors();
 
         try {
@@ -313,7 +315,9 @@ abstract class ThreeStepRedirectAbstractRequest extends AbstractRequest
 
         libxml_clear_errors();
         libxml_use_internal_errors($internalErrors);
-        libxml_disable_entity_loader($disableEntities);
+        if (PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader(true);
+        }
 
         if ($errorMessage !== null) {
             throw new \InvalidArgumentException('SimpleXML error: ' . $errorMessage);
@@ -335,7 +339,7 @@ abstract class ThreeStepRedirectAbstractRequest extends AbstractRequest
                 $this->arrayToXml($child, $value);
             }
             else {
-                $parent->addChild($name, htmlspecialchars($value));
+                $parent->addChild($name, htmlspecialchars($value ?? ''));
             }
         }
     }
