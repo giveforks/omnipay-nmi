@@ -82,6 +82,10 @@ class ThreeStepRedirectAuthRequest extends ThreeStepRedirectAbstractRequest
             'amount'       => $this->getAmount(),
         );
 
+        if ($this->getClientIp()) {
+            $data['ip-address'] = $this->getClientIp();
+        }
+
         if ($this->getCurrency()) {
             $data['currency'] = $this->getCurrency();
         }
